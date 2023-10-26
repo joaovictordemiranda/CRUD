@@ -11,6 +11,6 @@ CREATE TABLE users (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 email TEXT UNIQUE NOT NULL
                 idade INT NOT NULL,)"""
 
-cur.execute(sql)
+
 con.commit()
 con.close()
