@@ -2,7 +2,7 @@ import sqlite3
 
 def commit_close(func):
     def decorator(*args):
-        con = sqlite3.connect('sqlite.db')
+        con = sqlite3.connect('sqlite.db', timeout=20)
         cur = con.cursor()
         sql = func(*args)
         cur.execute(sql)
@@ -13,22 +13,23 @@ def commit_close(func):
 @commit_close
 def db_insert(name, phone, email, idade):
     return """
-    INSERT  INTO users(name, phone, email, idade)
+        INSERT  INTO users(name, phone, email, idade)
         VALUES('{}', '{}', '{}', '{}')
-    """.format(name, phone, email, idade)
+        """.format(name, phone, email, idade)
 
 @commit_close
-def db_update(name, email):
+def db_update(data, field):
     return """
-    UPDATE users SET name= '{}' WHERE email = '{}'
-    """.format(name,email)
+    UPDATE users SET data = '{}' WHERE field = '{}'
+    """.format(data,field)
 
 @commit_close
 def db_delete(email):
     return """
-    DELETE FROM users WHERE email = '{}'
+    DELETE FROM users WHERE email='{}'
     """.format(email)
 
+@commit_close
 def db_select(data, field):
     con = sqlite3.connect('sqlite.db')
     cur = con.cursor()
